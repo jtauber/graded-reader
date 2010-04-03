@@ -22,10 +22,12 @@ FILENAME = sys.argv[1]
 
 from collections import defaultdict
 
-# a dictionary mapping targets to a set of items that are needed (and initially missing)
+# a dictionary mapping targets to a set of items that are needed
+# (and initially missing)
 MISSING_IN_TARGET = defaultdict(set)
 
-# a dictionary mapping items to a set of targets the items are needed for (and initially missing from)
+# a dictionary mapping items to a set of targets the items are needed for
+# (and initially missing from)
 TARGETS_MISSING = defaultdict(set)
 
 for line in file(FILENAME):
@@ -40,9 +42,9 @@ while True:
     
     for missing in MISSING_IN_TARGET.values():
         for item in missing:
-            # if an item is the only missing item for a target, that adds 1/2 to its score
-            # if an item is one of two missing items for a target, that adds 1/4 to its score
-            # if an item is one of three missing items for a target, that adds 1/8 to its score
+            # if item is only missing item for a target, add 1/2 to its score
+            # if item is 1 of 2 missing items for a target, add 1/4
+            # if item is 1 of 3 missing items for a target, add 1/8
             # and so on...
             MISSING_ITEMS[item] += 1. / (2 ** len(missing))
     
