@@ -11,7 +11,8 @@ most frequent overall.
 import sys
 FILENAME = sys.argv[1]
 
-# target_item_list: list of (target, item) tuples to save us loading the file twice
+# target_item_list: list of (target, item) tuples to save us loading the file
+# twice
 
 target_item_list = []
 for line in open(FILENAME):
@@ -49,10 +50,13 @@ for target in targets:
     targets[target] = sorted(targets[target])
 
 # so now if targets[X] = [5, 5, 20, 50],
-# it means that target X consists of the 5th most frequent item (twice), the 20th most frequent and the 50th most frequent
-# it also means if you want to read 50% of this target (i.e. 2/4) you need to know up to the 5th most frequent word
-# and if you want to read 75% of this target (i.e. 3/4) you need to know up to the 20th most frequenct word
+# it means that target X consists of the 5th most frequent item (twice), the
+# 20th most frequent and the 50th most frequent it also means if you want to
+# read 50% of this target (i.e. 2/4) you need to know up to the 5th most
+# frequent word and if you want to read 75% of this target (i.e. 3/4) you need
+# to know up to the 20th most frequenct word
 
+# build a dict from target to second least frequent item target needs
 
 last = dict([(target, targets[target][-2]) for target in targets])
 
