@@ -30,9 +30,11 @@ for line in open(TARGET_ITEM_FILENAME):
     targets[target].add(item)
 
 
-## go through existing learning programme, only outputing items when a target needs them
+## go through existing learning programme, only outputing items when a target
+## needs them
 
-# known_items: set of items known at a given point but not necessarily shown yet
+# known_items: set of items known at a given point but not necessarily shown
+# yet
 known_items = set()
 
 # shown_items: set of items shown on output
@@ -55,12 +57,13 @@ for line in file(LEARNING_PROGRAMME_FILENAME):
     for target in targets:
         if known_items.issuperset(targets[target]) and target not in shown_targets:
             # for each item required by that target that hasn't been shown...
-            for item in sorted(targets[target]): # we sort merely for determinism
+            for item in sorted(targets[target]): # sort merely for determinism
                 if item not in shown_items:
                     # print the item and remember that it has been shown
                     print "learn", item
                     shown_items.add(item)
-            # now print the target that is known and remember that it has been shown
+            # now print the target that is known and remember that it has been
+            # shown
             print "know", target
             shown_targets.add(target)
     
