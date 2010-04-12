@@ -1,0 +1,8 @@
+This is experimental code for parsing the PROIEL dependency tree analysis of
+John's Gospel and generating a simple reading programme based on forms alone.
+
+You can download gnt-greeknt.xml from:
+    
+    http://foni.uio.no:3000/site/public_data
+
+once you have signed up there.
