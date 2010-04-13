@@ -46,9 +46,6 @@ class TextOnly(ElementHandler):
     pass
 
 
-book = None
-
-
 class Segmented(ElementHandler):
     
     handlers = {
@@ -60,19 +57,44 @@ class Segmented(ElementHandler):
 class Milestone(ElementHandler):
     
     def start(self, name, attr):
+        self.attr = attr
+    
+    def end(self, name):
         global book, chapter, verse
+        attr = self.attr
+        if isinstance(self.parent.parent, Sentence):
+            sentence = self.parent.parent
+        elif isinstance(self.parent.parent.parent, Sentence):
+            sentence = self.parent.parent.parent
+        else:
+            raise Exception()
         if attr["unit"] == "book":
             book = attr["n"]
+            sentence.add_book(book)
         if attr["unit"] == "chapter":
             chapter = attr["n"]
+            sentence.add_chapter(chapter)
         if attr["unit"] == "verse":
             verse = attr["n"]
+            sentence.add_verse(verse)
 
+
+class W(ElementHandler):
+    
+    def end(self, name):
+        # tell sentence it hit a w
+        if isinstance(self.parent.parent, Sentence):
+            sentence = self.parent.parent
+        elif isinstance(self.parent.parent.parent, Sentence):
+            sentence = self.parent.parent.parent
+        else:
+            raise Exception()
+        sentence.got_w()
 
 class Del(ElementHandler):
     
     handlers = {
-        "w": TextOnly,
+        "w": W,
         "s": TextOnly,
         "pc": TextOnly,
         "milestone": Milestone,
@@ -83,7 +105,7 @@ class Presentation(ElementHandler):
     
     handlers = {
         "milestone": Milestone,
-        "w": TextOnly,
+        "w": W,
         "s": TextOnly,
         "pc": TextOnly,
         "segmented": Segmented,
@@ -105,8 +127,14 @@ class Token(ElementHandler):
     }
     
     def start(self, name, attr):
-        if include(book):
-            print book, chapter, verse,
+        self.attr = attr
+    
+    def end(self, name):
+        attr = self.attr
+        BCV = self.parent.BCV
+        if include(BCV):
+            assert BCV
+            print format_bcv_set(BCV),
             print attr["id"],
             if "form" in attr:
                 print attr["form"].replace(" ", "+").encode("utf-8"),
@@ -128,8 +156,37 @@ class Sentence(ElementHandler):
     }
     
     def start(self, name, attr):
-        if include(book):
+        self.book = None
+        self.chapter = None
+        self.verse = None
+        self.BCV = set()
+    
+    def got_w(self):
+        # we need to know this to see if BCV is carrying over from previous
+        # sentence
+        
+        if not self.book:
+            self.book = book
+        if not self.chapter:
+            self.chapter = chapter
+        if not self.verse:
+            self.verse = verse
+        self.BCV.add((self.book, self.chapter, self.verse))
+        
+        
+    def add_book(self, book):
+        self.book = book
+    
+    def add_chapter(self, chapter):
+        self.chapter = chapter
+    
+    def add_verse(self, verse):
+        self.verse = verse
+    
+    def end(self, name):
+        if include(self.BCV):
             print
+
 
 
 class TEIHeader(ElementHandler):
@@ -158,6 +215,7 @@ class Source(ElementHandler):
         "div": Div,
     }
 
+
 class Root(ElementHandler):
     def __init__(self, f):
         self.p = p = xml.parsers.expat.ParserCreate()
@@ -171,8 +229,17 @@ class Root(ElementHandler):
     }
 
 
-def include(book):
-    return book == "JOHN"
+def include(BCV):
+    return "JOHN" in (book for book, chapter, verse in BCV)
+
+
+def format_bcv_set(BCV):
+    books = set(book for book, chapter, verse in BCV)
+    assert len(books) == 1
+    book_string = books.pop()
+    
+    cv_string = ",".join(("%d.%d" % (c,v) for c,v in sorted((int(chapter), int(verse)) for book, chapter, verse in BCV)))
+    return "%s %s" % (book_string, cv_string)
 
 
 Root(open(sys.argv[1]))

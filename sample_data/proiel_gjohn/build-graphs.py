@@ -34,7 +34,7 @@ class Graph:
         return text
 
 
-Node = namedtuple("Node", "line_num book chapter verse ref form lemma pos lang parse rel head")
+Node = namedtuple("Node", "line_num book cv_range ref form lemma pos lang parse rel head")
 
 graph = Graph({}, defaultdict(set))
 
@@ -43,12 +43,12 @@ line_num = 0
 for line in open(sys.argv[1]):
     if line.strip():
         line_num += 1
-        book, chapter, verse, ref, form, analysis, rel, head = line.strip().split()
+        book, cv_range, ref, form, analysis, rel, head = line.strip().split()
         if analysis == "-":
             lemma, pos, lang, parse = "-", "-", "-", "-"
         else:
             lemma, pos, lang, parse = analysis.split(",")
-        graph.node[ref] = Node(line_num, book, chapter, verse, ref, form, lemma, pos, lang, parse, rel, head)
+        graph.node[ref] = Node(line_num, book, cv_range, ref, form, lemma, pos, lang, parse, rel, head)
         graph.deps[head].add(ref)
     else:
         graph.display()
