@@ -21,7 +21,6 @@ class Graph:
     
     def display_node(self, node, indent=0):
         global clause_num
-        # print "  " * indent, node.rel, node.pos, self.subtree_text(node)
         if node.rel == "pred":
             clause_num += 1
             print "%d|%s.%s|%s" % (clause_num, node.chapter, node.verse, self.subtree_text(node))
@@ -58,5 +57,4 @@ for line in open(sys.argv[1]):
         graph.deps[head].add(ref)
     else:
         graph.display()
-        # print
         graph = Graph({}, defaultdict(set))
