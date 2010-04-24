@@ -7,6 +7,12 @@ from collections import defaultdict, namedtuple
 
 target_num = 0
 
+def include(graph, node):
+    if node.rel == "pred" or (node.rel == "sub" and len(graph.subtree(node)) > 1):
+        return True
+    else:
+        return False
+
 class Graph:
     def __init__(self, node, deps):
         self.node = node
@@ -21,7 +27,7 @@ class Graph:
     
     def display_node(self, node, indent=0):
         global target_num
-        if node.rel == "pred" or len(self.subtree(node)) > 1:
+        if include(self, node):
             target_num += 1
             print "%06d|%s|%s-%s|%s" % (target_num, node.cv_range, node.rel, node.pos, self.subtree_text(node))
         
