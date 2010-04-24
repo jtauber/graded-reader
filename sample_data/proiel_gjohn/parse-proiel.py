@@ -231,6 +231,7 @@ class Root(ElementHandler):
 
 def include(BCV):
     return "JOHN" in (book for book, chapter, verse in BCV)
+    # return ("JOHN","2") in ((book, chapter) for book, chapter, verse in BCV)
 
 
 def format_bcv_set(BCV):
