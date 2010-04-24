@@ -12,7 +12,7 @@ for line in open(sys.argv[1]):
 for line in open(sys.argv[2]):
     if line.startswith("know"):
         print line.strip(),
-        target_num = line.strip().split()[1]
+        target_num = line.strip().split()[1].split("/")[1]
         print " ".join(TARGETS[target_num])
     else:
         print line.strip()
