@@ -18,7 +18,7 @@ class Graph:
             self.display_node(root)
     
     def display_node(self, node, indent=0):
-        print "  " * indent, node.rel, node.pos, self.subtree_text(node)
+        print "  " * indent, node.cv_range, node.rel, node.pos, self.subtree_text(node)
         
         for dep in (self.node[x] for x in self.deps[node.ref]):
             self.display_node(dep, indent + 1)
