@@ -1,7 +1,7 @@
 all: programme
 
 text: parse-proiel.py gnt-greeknt.xml
-	./parse-proiel.py gnt-greeknt.xml > text
+	./parse-proiel.py gnt-greeknt.xml JOHN > text
 
 targets: build-targets.py text
 	./build-targets.py text > targets

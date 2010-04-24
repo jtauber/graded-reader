@@ -229,9 +229,16 @@ class Root(ElementHandler):
     }
 
 
-def include(BCV):
-    return "JOHN" in (book for book, chapter, verse in BCV)
-    # return ("JOHN","2") in ((book, chapter) for book, chapter, verse in BCV)
+def include_book(book_name):
+    def _(BCV):
+        return book_name in (book for book, chapter, verse in BCV)
+    return _
+
+
+def include_chapter(book_name, chapter_num):
+    def _(BCV):
+        return (book_name, chapter_num) in ((book, chapter) for book, chapter, verse in BCV)
+    return _
 
 
 def format_bcv_set(BCV):
@@ -242,5 +249,12 @@ def format_bcv_set(BCV):
     cv_string = ",".join(("%d.%d" % (c,v) for c,v in sorted((int(chapter), int(verse)) for book, chapter, verse in BCV)))
     return "%s %s" % (book_string, cv_string)
 
+if len(sys.argv) == 3:
+    include = include_book(sys.argv[2])
+elif len(sys.argv) == 4:
+    include = include_chapter(sys.argv[2], sys.argv[3])
+else:
+    print "usage: ./parse_proiel.py <xml file> <book name> [<chapter num>]"
+    sys.exit(1)
 
 Root(open(sys.argv[1]))
