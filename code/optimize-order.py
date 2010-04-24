@@ -71,7 +71,7 @@ for item in learning_programme:
     print "learn", item
     known_items.add(item)
     
-    for target in sorted(targets):
+    for target in sorted(sorted(targets), key=lambda t: len(targets[t])):
         if known_items.issuperset(targets[target]) and target not in shown_targets:
             print "know", target
             shown_targets.add(target)
