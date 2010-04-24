@@ -6,8 +6,8 @@ import sys
 CLAUSES = {}
 
 for line in open(sys.argv[1]):
-    clause_num, verse, text = line.strip().split("|")
-    CLAUSES[clause_num] = (verse, text)
+    clause_num, verse, syncat, text = line.strip().split("|")
+    CLAUSES[clause_num] = (verse, syncat, text)
 
 for line in open(sys.argv[2]):
     if line.startswith("know"):
