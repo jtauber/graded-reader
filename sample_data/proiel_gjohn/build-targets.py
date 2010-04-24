@@ -5,7 +5,7 @@ import sys
 
 from collections import defaultdict, namedtuple
 
-clause_num = 0
+target_num = 0
 
 class Graph:
     def __init__(self, node, deps):
@@ -20,10 +20,10 @@ class Graph:
             self.display_node(root)
     
     def display_node(self, node, indent=0):
-        global clause_num
+        global target_num
         if node.rel == "pred" or len(self.subtree(node)) > 1:
-            clause_num += 1
-            print "%d|%s|%s-%s|%s" % (clause_num, node.cv_range, node.rel, node.pos, self.subtree_text(node))
+            target_num += 1
+            print "%d|%s|%s-%s|%s" % (target_num, node.cv_range, node.rel, node.pos, self.subtree_text(node))
         
         for dep in (self.node[x] for x in self.deps[node.ref]):
             self.display_node(dep, indent + 1)

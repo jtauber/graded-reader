@@ -3,16 +3,16 @@
 
 import sys
 
-CLAUSES = {}
+TARGETS = {}
 
 for line in open(sys.argv[1]):
-    clause_num, verse, syncat, text = line.strip().split("|")
-    CLAUSES[clause_num] = (verse, syncat, text)
+    target_num, verse, syncat, text = line.strip().split("|")
+    TARGETS[target_num] = (verse, syncat, text)
 
 for line in open(sys.argv[2]):
     if line.startswith("know"):
         print line.strip(),
-        clause_num = line.strip().split()[1]
-        print " ".join(CLAUSES[clause_num])
+        target_num = line.strip().split()[1]
+        print " ".join(TARGETS[target_num])
     else:
         print line.strip()
