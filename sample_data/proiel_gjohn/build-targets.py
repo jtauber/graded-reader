@@ -29,7 +29,7 @@ class Graph:
         global target_num
         if include(self, node):
             target_num += 1
-            print "%06d|%s|%s-%s|%s" % (target_num, node.cv_range, node.rel, node.pos, self.subtree_text(node))
+            print "%06d|%s|%s-%s|%s" % (int(node.ref), node.cv_range, node.rel, node.pos, self.subtree_text(node))
         
         for dep in (self.node[x] for x in self.deps[node.ref]):
             self.display_node(dep, indent + 1)
