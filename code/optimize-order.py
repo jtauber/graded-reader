@@ -26,8 +26,9 @@ from collections import defaultdict
 targets = defaultdict(set)
 
 for line in open(TARGET_ITEM_FILENAME):
-    target, item = line.strip().split()
-    targets[target].add(item)
+    if line.strip():
+        target, item = line.strip().split()
+        targets[target].add(item)
 
 
 # step 1: optimize item list
