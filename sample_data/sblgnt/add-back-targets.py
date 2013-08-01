@@ -7,8 +7,9 @@ from collections import defaultdict
 TARGETS = defaultdict(list)
 
 for line in open(sys.argv[1]):
-    row = line.strip().split()
-    TARGETS[row[0]].append(row[3])
+    if line.strip():
+        row = line.strip().split()
+        TARGETS[row[0]].append(row[3])
 
 for line in open(sys.argv[2]):
     if line.startswith("know"):
