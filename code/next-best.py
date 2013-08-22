@@ -31,9 +31,10 @@ MISSING_IN_TARGET = defaultdict(set)
 TARGETS_MISSING = defaultdict(set)
 
 for line in file(FILENAME):
-    target, item = line.strip().split()
-    MISSING_IN_TARGET[target].add(item)
-    TARGETS_MISSING[item].add(target)
+    if line.strip():
+        target, item = line.strip().split()
+        MISSING_IN_TARGET[target].add(item)
+        TARGETS_MISSING[item].add(target)
 
 while True:
     
