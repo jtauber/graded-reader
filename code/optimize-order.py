@@ -11,6 +11,8 @@ The second argument is the name of the file that lists the target-item pairs.
 Each line should be of the form <target> <item> separated by whitespace.
 """
 
+from __future__ import print_function
+
 
 import sys
 LEARNING_PROGRAMME_FILENAME = sys.argv[1]
@@ -40,7 +42,7 @@ processed_items = set()
 
 learning_programme = []
 
-for line in file(LEARNING_PROGRAMME_FILENAME):
+for line in open(LEARNING_PROGRAMME_FILENAME):
     if not line.startswith("learn"):
         continue
     item = line.strip().split()[1]
@@ -49,7 +51,7 @@ for line in file(LEARNING_PROGRAMME_FILENAME):
 
     # for each target that can be known at this point but hasn't been shown...
     for target in targets:
-        if known_items.issuperset(targets[target]) and target not in shown_targets:
+        if known_items >=targets[target] and target not in shown_targets:
             # for each item required by that target that hasn't been shown...
             for item in sorted(targets[target]):  # sort merely for determinism
                 if item not in processed_items:
@@ -69,15 +71,14 @@ shown_targets = set()
 score = 0
 
 for item in learning_programme:
-    print "learn", item
+    print("learn", item)
     known_items.add(item)
 
     for target in sorted(sorted(targets), key=lambda t: len(targets[t])):
-        if known_items.issuperset(targets[target]) and target not in shown_targets:
-            print "know", target
+        if known_items >= targets[target] and target not in shown_targets:
+            print("know", target)
             shown_targets.add(target)
 
     score += float(len(shown_targets)) / len(targets)
 
-
-print "score", score
+print("score", score)
