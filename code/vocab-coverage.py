@@ -11,6 +11,8 @@ whitespace.
 COVERAGE and ITEM_COUNTS below are configurable.
 """
 
+from __future__ import print_function
+
 
 ## configurable settings
 
@@ -95,7 +97,11 @@ def percentage(n, d):
 needed = {}
 
 for coverage in COVERAGE:
-    needed[coverage] = [targets[target][ceiling(coverage * len(targets[target])) - 1] for target in targets]
+    needed[coverage] = [
+        targets[target][
+            ceiling(coverage * len(targets[target])) - 1
+        ] for target in targets
+    ]
 
 # in other words if needed[0.50] = [16, 44, 182, 34, 21, 36, 8, 48, 21, 26],
 # that means that to achieve 50% coverage, the first target needs up to the
@@ -108,14 +114,14 @@ for coverage in COVERAGE:
 
 # header
 for coverage in COVERAGE:
-    print "\t%d%%" % (100 * coverage),
-print
+    print("\t{:f}%".format(100 * coverage), end=" ")
+print()
 
 for item_count in ITEM_COUNTS:
-    print item_count,
+    print(item_count, end=" ")
     for coverage in COVERAGE:
         # how many targets require less than or equal to item_count to reach
         # the given coverage?
         num = len([freq for freq in needed[coverage] if freq <= item_count])
-        print "\t%s%%" % (percentage(num, len(targets))),
-    print
+        print("\t{:f}%".format(percentage(num, len(targets))), end=" ")
+    print()
