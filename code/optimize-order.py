@@ -51,7 +51,7 @@ for line in open(LEARNING_PROGRAMME_FILENAME):
 
     # for each target that can be known at this point but hasn't been shown...
     for target in targets:
-        if known_items >=targets[target] and target not in shown_targets:
+        if known_items >= targets[target] and target not in shown_targets:
             # for each item required by that target that hasn't been shown...
             for item in sorted(targets[target]):  # sort merely for determinism
                 if item not in processed_items:
