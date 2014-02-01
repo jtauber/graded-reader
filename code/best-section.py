@@ -34,20 +34,20 @@ for line in open(FILENAME):
     section_item_count[section, item] += 1
 
 
-## calculate contribution
+## calculate section score
 
-section_contribution = {}
+section_score = {}
 
 for section in section_count:
     contribution = 0
-    for item, count in item_count.items():
+    for item, overall_count in item_count.items():
         if section_item_count[section, item] > 0:
-            contribution += count - section_item_count[section, item]
+            contribution += overall_count - section_item_count[section, item]
 
-    section_contribution[section] = 1. * contribution / section_count[section]
+    section_score[section] = 1. * contribution / section_count[section]
 
 
 ## display results
 
-for section in sorted(section_contribution, key=section_contribution.get, reverse=True):
-    print "%05s %.2f" % (section, section_contribution[section])
+for section in sorted(section_score, key=section_score.get, reverse=True):
+    print "%05s %.2f" % (section, section_score[section])
