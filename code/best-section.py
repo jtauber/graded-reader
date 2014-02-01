@@ -50,4 +50,4 @@ for section in section_count:
 ## display results
 
 for section in sorted(section_score, key=section_score.get, reverse=True):
-    print "%05s %.2f" % (section, section_score[section])
+    print("{} {:.2f}".format(section, section_score[section]))
