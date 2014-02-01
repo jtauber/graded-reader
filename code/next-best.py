@@ -17,6 +17,9 @@ whitespace.
 The output will consist of "learn <item>" and "know <target>" lines.
 """
 
+from __future__ import print_function
+
+
 import sys
 FILENAME = sys.argv[1]
 
@@ -30,7 +33,7 @@ MISSING_IN_TARGET = defaultdict(set)
 # (and initially missing from)
 TARGETS_MISSING = defaultdict(set)
 
-for line in file(FILENAME):
+for line in open(FILENAME):
     if line.strip():
         target, item = line.strip().split()
         MISSING_IN_TARGET[target].add(item)
@@ -56,7 +59,7 @@ while True:
     # otherwise the next item to learn is the one with the highest score
     next_item = sorted(MISSING_ITEMS, key=MISSING_ITEMS.get)[-1]
 
-    print "learn", next_item
+    print("learn", next_item)
 
     # for each target missing that item, remove the item
     for target in TARGETS_MISSING[next_item]:
@@ -66,10 +69,10 @@ while True:
         if len(MISSING_IN_TARGET[target]) == 0:
 
             # it is known
-            print "know", target
+            print("know", target)
             del MISSING_IN_TARGET[target]
 
     del TARGETS_MISSING[next_item]
 
 
-print len(MISSING_IN_TARGET), "targets unread"
+print(len(MISSING_IN_TARGET), "targets unread")
