@@ -3,7 +3,12 @@
 """
 Output a list of the top ten targets whose second least frequent item is
 most frequent overall.
+
+The input file should consist of lines of <target> <item> separated by
+whitespace.
 """
+
+from __future__ import print_function
 
 
 ## load file
@@ -61,4 +66,4 @@ for target in targets:
 last = dict([(target, targets[target][-2]) for target in targets])
 
 for target in sorted(last, key=last.get)[:10]:
-    print target, last[target], targets[target]
+    print(target, last[target], targets[target])
