@@ -81,6 +81,7 @@ import math
 # gives the lowest integer above the given number
 ceiling = lambda num: int(math.ceil(num))
 
+
 # given a fraction n/d, returns a percentage to one decimal place
 def percentage(n, d):
     return int(1000.0 * n / d) / 10.0

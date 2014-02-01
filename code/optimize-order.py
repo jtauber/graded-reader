@@ -44,14 +44,14 @@ for line in file(LEARNING_PROGRAMME_FILENAME):
     if not line.startswith("learn"):
         continue
     item = line.strip().split()[1]
-    
+
     known_items.add(item)
-    
+
     # for each target that can be known at this point but hasn't been shown...
     for target in targets:
         if known_items.issuperset(targets[target]) and target not in shown_targets:
             # for each item required by that target that hasn't been shown...
-            for item in sorted(targets[target]): # sort merely for determinism
+            for item in sorted(targets[target]):  # sort merely for determinism
                 if item not in processed_items:
                     # store the item
                     learning_programme.append(item)
@@ -71,12 +71,12 @@ score = 0
 for item in learning_programme:
     print "learn", item
     known_items.add(item)
-    
+
     for target in sorted(sorted(targets), key=lambda t: len(targets[t])):
         if known_items.issuperset(targets[target]) and target not in shown_targets:
             print "know", target
             shown_targets.add(target)
-    
+
     score += float(len(shown_targets)) / len(targets)
 
 

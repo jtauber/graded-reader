@@ -46,7 +46,7 @@ from collections import defaultdict
 item_counts = defaultdict(int)
 
 for target, item in target_item_list:
-    item_counts[item] +=1
+    item_counts[item] += 1
 
 # items: map of item to frequency order
 items = {}
@@ -80,6 +80,7 @@ for target in targets:
 import math
 # gives the lowest integer above the given number
 ceiling = lambda num: int(math.ceil(num))
+
 
 # given a fraction n/d, returns a percentage to one decimal place
 def percentage(n, d):
@@ -118,4 +119,3 @@ for item_count in ITEM_COUNTS:
         num = len([freq for freq in needed[coverage] if freq <= item_count])
         print "\t%s%%" % (percentage(num, len(targets))),
     print
-    

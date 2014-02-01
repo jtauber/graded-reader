@@ -28,7 +28,7 @@ from collections import defaultdict
 item_counts = defaultdict(int)
 
 for target, item in target_item_list:
-    item_counts[item] +=1
+    item_counts[item] += 1
 
 # items: map of item to frequency order
 items = {}

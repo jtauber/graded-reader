@@ -43,7 +43,7 @@ for section in section_count:
     for item, count in item_count.items():
         if section_item_count[section, item] > 0:
             contribution += count - section_item_count[section, item]
-    
+
     section_contribution[section] = 1. * contribution / section_count[section]
 
 

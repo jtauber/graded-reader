@@ -37,10 +37,10 @@ for line in file(FILENAME):
         TARGETS_MISSING[item].add(target)
 
 while True:
-    
+
     # for each item, a score of how bad it is that it is missing
     MISSING_ITEMS = defaultdict(int)
-    
+
     for missing in MISSING_IN_TARGET.values():
         for item in missing:
             # if item is only missing item for a target, add 1/2 to its score
@@ -48,27 +48,27 @@ while True:
             # if item is 1 of 3 missing items for a target, add 1/8
             # and so on...
             MISSING_ITEMS[item] += 1. / (2 ** len(missing))
-    
+
     # stop if there are no missing items
     if not MISSING_ITEMS:
         break
-        
+
     # otherwise the next item to learn is the one with the highest score
     next_item = sorted(MISSING_ITEMS, key=MISSING_ITEMS.get)[-1]
-    
+
     print "learn", next_item
-    
+
     # for each target missing that item, remove the item
     for target in TARGETS_MISSING[next_item]:
         MISSING_IN_TARGET[target].remove(next_item)
-        
+
         # if the target is now missing no items...
         if len(MISSING_IN_TARGET[target]) == 0:
-            
+
             # it is known
             print "know", target
             del MISSING_IN_TARGET[target]
-    
+
     del TARGETS_MISSING[next_item]
 
 
