@@ -41,7 +41,6 @@ def cng(attr):
 def ccat(attr):
     return "{}{}{}{}".format(person(attr), tvm(attr), cng(attr), degree(attr))
 
-
     analysis = attr["Cat"]
     if attr["Cat"] in ["noun"]:
         analysis = "N- ----{}-".format(cng(attr))
@@ -68,5 +67,4 @@ def ccat(attr):
     elif attr["Cat"] == "num":
         analysis = "NU --------"
     else:
-        raise Exception, attr["Cat"]
-    
+        raise Exception(attr["Cat"])

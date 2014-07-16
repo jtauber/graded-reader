@@ -13,7 +13,7 @@ def n(x):
 
 
 class Node(ElementHandler):
-    
+
     def start(self, name, attr):
         self.items = []
         self.node_id = attr["nodeId"]
@@ -30,8 +30,8 @@ class Node(ElementHandler):
                     "Degree",
                     "Unicode", "UnicodeLemma",
                 ]:
-                    raise Exception, key
-            
+                    raise Exception(key)
+
             self.analysis = None
             self.parent.add_item(attr["Unicode"].strip(u".,·").encode("utf-8"))
         else:
@@ -43,11 +43,11 @@ class Node(ElementHandler):
             else:
                 self.analysis = attr["Cat"]
             self.parent.add_item(self.analysis)
-    
+
     def add_item(self, item):
         self.items.append(item)
         self.parent.add_item(item)
-    
+
     def end(self, name):
         if self.analysis and self.analysis.startswith("CL"):
             print self.node_id, self.analysis
@@ -59,32 +59,31 @@ Node.handlers = dict(Node=Node)
 
 
 class Tree(ElementHandler):
-    
+
     handlers = dict(Node=Node)
-    
+
     def start(self, name, attr):
         self.node_id = None
-    
+
     def add_item(self, item):
         pass
 
 
 class Trees(ElementHandler):
-    
+
     handlers = dict(Tree=Tree)
-    
 
 
 class Sentence(ElementHandler):
-    
+
     handlers = dict(Trees=Trees)
-    
+
     def start(self, name, attr):
-        pass # print attr["ID"]
+        pass  # print attr["ID"]
 
 
 class Sentences(ElementHandler):
-    
+
     handlers = dict(Sentence=Sentence)
 
 

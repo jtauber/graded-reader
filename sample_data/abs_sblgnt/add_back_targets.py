@@ -19,7 +19,7 @@ for line in open(sys.argv[2]):
     if line.startswith("know"):
         target_num = line.strip().split()[1]
         bcv = book[int(target_num[:2]) - 40], int(target_num[2:5]), int(target_num[5:8])
-    
+
         print "know", "{} {}.{}".format(*bcv),
         print TARGETS[target_num]
     else:
