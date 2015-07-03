@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Output a table showing what percentage of targets can be read assuming
@@ -11,18 +11,18 @@ whitespace.
 COVERAGE and ITEM_COUNTS below are configurable.
 """
 
-from __future__ import print_function
+import math
 
 
 ## configurable settings
 
-# list of coverage ratios we want to calculate for
 # 0.001 is approximately "any"
+ANY = 0.001
 
-COVERAGE = [0.001, 0.50, 0.75, 0.90, 0.95, 1.00]
+# list of coverage ratios we want to calculate for
+COVERAGE = [ANY, 0.50, 0.75, 0.90, 0.95, 1.00]
 
 # list of item counts we want to display for
-
 ITEM_COUNTS = [100, 200, 500, 1000, 2000, 5000]
 
 
@@ -49,6 +49,7 @@ item_counts = defaultdict(int)
 
 for target, item in target_item_list:
     item_counts[item] += 1
+
 
 # items: map of item to frequency order
 items = {}
@@ -77,18 +78,6 @@ for target in targets:
 # to know up to the 20th most frequenct word
 
 
-## math helper functions
-
-import math
-# gives the lowest integer above the given number
-ceiling = lambda num: int(math.ceil(num))
-
-
-# given a fraction n/d, returns a percentage to one decimal place
-def percentage(n, d):
-    return int(1000.0 * n / d) / 10.0
-
-
 ## calculate what's needed for each target
 
 # needed - maps a given coverage ratio to a list which, for each target, gives
@@ -99,7 +88,7 @@ needed = {}
 for coverage in COVERAGE:
     needed[coverage] = [
         targets[target][
-            ceiling(coverage * len(targets[target])) - 1
+            math.ceil(coverage * len(targets[target])) - 1
         ] for target in targets
     ]
 
@@ -113,15 +102,27 @@ for coverage in COVERAGE:
 ## display table
 
 # header
+print("{:6s}".format(""), end=" ")
 for coverage in COVERAGE:
-    print("\t{:f}%".format(100 * coverage), end=" ")
+    if coverage == ANY:
+        print("{:>10s}".format("ANY"), end=" ")
+    else:
+        print("{:10.2%}".format(coverage), end=" ")
 print()
+print("-" * (6 + 11 * len(COVERAGE)))
 
 for item_count in ITEM_COUNTS:
-    print(item_count, end=" ")
+    print("{:6d}".format(item_count), end=" ")
     for coverage in COVERAGE:
         # how many targets require less than or equal to item_count to reach
         # the given coverage?
         num = len([freq for freq in needed[coverage] if freq <= item_count])
-        print("\t{:f}%".format(percentage(num, len(targets))), end=" ")
+        print("{:10.2%}".format(num / len(targets)), end=" ")
     print()
+
+# ALL row
+print("{:>6s}".format("ALL"), end=" ")
+for coverage in COVERAGE:
+    num = len([freq for freq in needed[coverage] if freq <= len(items)])
+    print("{:10.2%}".format(num / len(targets)), end=" ")
+print()
