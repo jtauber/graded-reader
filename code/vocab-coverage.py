@@ -105,11 +105,11 @@ for coverage in COVERAGE:
 print("{:6s}".format(""), end=" ")
 for coverage in COVERAGE:
     if coverage == ANY:
-        print("{:>10s}".format("ANY"), end=" ")
+        print("{:>9s}".format("ANY"), end=" ")
     else:
-        print("{:10.2%}".format(coverage), end=" ")
+        print("{:9.2%}".format(coverage), end=" ")
 print()
-print("-" * (6 + 11 * len(COVERAGE)))
+print("-" * (6 + 10 * len(COVERAGE)))
 
 for item_count in ITEM_COUNTS:
     print("{:6d}".format(item_count), end=" ")
@@ -117,12 +117,12 @@ for item_count in ITEM_COUNTS:
         # how many targets require less than or equal to item_count to reach
         # the given coverage?
         num = len([freq for freq in needed[coverage] if freq <= item_count])
-        print("{:10.2%}".format(num / len(targets)), end=" ")
+        print("{:9.2%}".format(num / len(targets)), end=" ")
     print()
 
 # ALL row
 print("{:>6s}".format("ALL"), end=" ")
 for coverage in COVERAGE:
     num = len([freq for freq in needed[coverage] if freq <= len(items)])
-    print("{:10.2%}".format(num / len(targets)), end=" ")
+    print("{:9.2%}".format(num / len(targets)), end=" ")
 print()
